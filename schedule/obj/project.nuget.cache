@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "dgSpecHash": "WGsQ3BDEkgfpGL1oQlF2yC10VGp+MlsnzvKCJk+kdbP8WzgPLkolOMrbxr49G1jDVvFh3RGjtgdwPGKnf5heYA==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Тема\\source\\repos\\schedule\\schedule\\schedule.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Тема\\.nuget\\packages\\google.apis\\1.50.0\\google.apis.1.50.0.nupkg.sha512",
+    "C:\\Users\\Тема\\.nuget\\packages\\google.apis.auth\\1.50.0\\google.apis.auth.1.50.0.nupkg.sha512",
+    "C:\\Users\\Тема\\.nuget\\packages\\google.apis.core\\1.50.0\\google.apis.core.1.50.0.nupkg.sha512",
+    "C:\\Users\\Тема\\.nuget\\packages\\google.apis.sheets.v4\\1.50.0.2231\\google.apis.sheets.v4.1.50.0.2231.nupkg.sha512",
+    "C:\\Users\\Тема\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}
