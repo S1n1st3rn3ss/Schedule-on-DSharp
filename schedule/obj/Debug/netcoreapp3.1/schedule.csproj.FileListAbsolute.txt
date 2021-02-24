@@ -20,3 +20,4 @@ C:\Users\Тема\source\repos\schedule\schedule\obj\Debug\netcoreapp3.1\schedul
 C:\Users\Тема\source\repos\schedule\schedule\obj\Debug\netcoreapp3.1\schedule.dll
 C:\Users\Тема\source\repos\schedule\schedule\obj\Debug\netcoreapp3.1\schedule.pdb
 C:\Users\Тема\source\repos\schedule\schedule\obj\Debug\netcoreapp3.1\schedule.genruntimeconfig.cache
+C:\Users\Тема\source\repos\schedule\schedule\bin\Debug\netcoreapp3.1\credentials.json

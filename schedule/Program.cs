@@ -16,7 +16,7 @@ namespace SheetsQuickstart
         // at ~/.credentials/sheets.googleapis.com-dotnet-quickstart.json
         static string[] Scopes = { SheetsService.Scope.SpreadsheetsReadonly };
         static string ApplicationName = "Google Sheets API .NET Quickstart";
-
+        
         static void Main(string[] args)
         {
             UserCredential credential;
@@ -24,8 +24,8 @@ namespace SheetsQuickstart
             using (var stream =
                 new FileStream("credentials.json", FileMode.Open, FileAccess.Read))
             {
-                // The file token.json stores the user's access and refresh tokens, and is created
-                // automatically when the authorization flow completes for the first time.
+                // Токен в JSON, нужен для авторизации и чтения
+                // НЕ ТРОГАТЬ!
                 string credPath = "token.json";
                 credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
                     GoogleClientSecrets.Load(stream).Secrets,
@@ -33,19 +33,21 @@ namespace SheetsQuickstart
                     "user",
                     CancellationToken.None,
                     new FileDataStore(credPath, true)).Result;
-                Console.WriteLine("Credential file saved to: " + credPath);
             }
 
-            // Create Google Sheets API service.
+            // Подключение АПИ, что-то чисто Гугловское
             var service = new SheetsService(new BaseClientService.Initializer()
             {
                 HttpClientInitializer = credential,
                 ApplicationName = ApplicationName,
             });
+            DateTime today = DateTime.Now;
+            DateTime tomorrow = today.AddDays(1);
+            string actualTomorrow = tomorrow.ToString("dd.MM.yy");
 
             // Define request parameters.
-            String spreadsheetId = "1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms";
-            String range = "Class Data!A2:E";
+            String spreadsheetId = "1mAodHGjv2gSQacFuZPKzmj5UJhoSo21ipMJ9YgsCDjQ";
+            String range = actualTomorrow+"!A3:O10";
             SpreadsheetsResource.ValuesResource.GetRequest request =
                     service.Spreadsheets.Values.Get(spreadsheetId, range);
 
@@ -53,13 +55,15 @@ namespace SheetsQuickstart
             // https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
             ValueRange response = request.Execute();
             IList<IList<Object>> values = response.Values;
+            // Посчитать завтрашний день
+
             if (values != null && values.Count > 0)
             {
-                Console.WriteLine("Name, Major");
+                Console.WriteLine("Номер, Урок");
                 foreach (var row in values)
                 {
                     // Print columns A and E, which correspond to indices 0 and 4.
-                    Console.WriteLine("{0}, {1}", row[0], row[4]);
+                    Console.WriteLine("{0} {1}", row[0], row[13]);
                 }
             }
             else
@@ -67,6 +71,8 @@ namespace SheetsQuickstart
                 Console.WriteLine("No data found.");
             }
             Console.Read();
+
+
         }
     }
 }
