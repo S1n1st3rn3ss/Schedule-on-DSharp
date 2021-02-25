@@ -42,7 +42,17 @@ namespace SheetsQuickstart
                 ApplicationName = ApplicationName,
             });
             DateTime today = DateTime.Now;
-            DateTime tomorrow = today.AddDays(1);
+            DateTime tomorrow;
+            if (today.DayOfWeek == DayOfWeek.Saturday)
+            {
+                DateTime nextday = today.AddDays(2);
+                tomorrow = nextday;
+            }
+            else
+            {
+                DateTime nextday = today.AddDays(1);
+                tomorrow = nextday;
+            }
             string actualTomorrow = tomorrow.ToString("dd.MM.yy");
 
             // Define request parameters.
