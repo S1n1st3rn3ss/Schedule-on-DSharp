@@ -16,7 +16,25 @@ namespace SheetsQuickstart
         // at ~/.credentials/sheets.googleapis.com-dotnet-quickstart.json
         static string[] Scopes = { SheetsService.Scope.SpreadsheetsReadonly };
         static string ApplicationName = "Google Sheets API .NET Quickstart";
-        
+        static string NextSchoolDay;
+        static string GetNeededDate()
+        // Функция, определяющая следующий рабочий день
+        {
+            DateTime today = DateTime.Now;
+            DateTime tomorrow;
+            if (today.DayOfWeek == DayOfWeek.Saturday)
+            {
+                DateTime nextday = today.AddDays(2);
+                tomorrow = nextday;
+            }
+            else
+            {
+                DateTime nextday = today.AddDays(1);
+                tomorrow = nextday;
+            }
+            return NextSchoolDay = (string)tomorrow.ToString("dd.MM.yy");
+        }
+
         static void Main(string[] args)
         {
             UserCredential credential;
@@ -41,23 +59,11 @@ namespace SheetsQuickstart
                 HttpClientInitializer = credential,
                 ApplicationName = ApplicationName,
             });
-            DateTime today = DateTime.Now;
-            DateTime tomorrow;
-            if (today.DayOfWeek == DayOfWeek.Saturday)
-            {
-                DateTime nextday = today.AddDays(2);
-                tomorrow = nextday;
-            }
-            else
-            {
-                DateTime nextday = today.AddDays(1);
-                tomorrow = nextday;
-            }
-            string actualTomorrow = tomorrow.ToString("dd.MM.yy");
+
 
             // Define request parameters.
             String spreadsheetId = "1mAodHGjv2gSQacFuZPKzmj5UJhoSo21ipMJ9YgsCDjQ";
-            String range = actualTomorrow+"!A3:O10";
+            String range = NextSchoolDay+"!A3:O10";
             SpreadsheetsResource.ValuesResource.GetRequest request =
                     service.Spreadsheets.Values.Get(spreadsheetId, range);
 
@@ -65,7 +71,6 @@ namespace SheetsQuickstart
             // https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
             ValueRange response = request.Execute();
             IList<IList<Object>> values = response.Values;
-            // Посчитать завтрашний день
 
             if (values != null && values.Count > 0)
             {
