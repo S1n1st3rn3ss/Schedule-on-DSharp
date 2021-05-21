@@ -7,6 +7,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
+using System.Threading.Tasks;
+using DSharpPlus;
+using DSharpPlus.CommandsNext;
+using DSharpPlus.CommandsNext.Attributes;
 
 namespace SheetsQuickstart
 {
@@ -16,8 +20,27 @@ namespace SheetsQuickstart
         // at ~/.credentials/sheets.googleapis.com-dotnet-quickstart.json
         static string[] Scopes = { SheetsService.Scope.SpreadsheetsReadonly };
         static string ApplicationName = "Google Sheets API .NET Quickstart";
-        
-        static void Main(string[] args)
+        static string NextSchoolDay;
+        static string GetNeededDate()
+        // Функция, определяющая следующий рабочий день
+        {
+            DateTime today = DateTime.Now;
+            DateTime tomorrow;
+            if (today.DayOfWeek == DayOfWeek.Saturday)
+            {
+                DateTime nextday = today.AddDays(2);
+                tomorrow = nextday;
+            }
+            else
+            {
+                DateTime nextday = today.AddDays(1);
+                tomorrow = nextday;
+            }
+            return NextSchoolDay = (string)tomorrow.ToString("dd.MM.yy");
+        }
+
+        //static void Main(string[] args)
+        static void Schedule()
         {
             UserCredential credential;
 
@@ -41,21 +64,16 @@ namespace SheetsQuickstart
                 HttpClientInitializer = credential,
                 ApplicationName = ApplicationName,
             });
-            DateTime today = DateTime.Now;
-            DateTime tomorrow = today.AddDays(1);
-            string actualTomorrow = tomorrow.ToString("dd.MM.yy");
+
 
             // Define request parameters.
             String spreadsheetId = "1mAodHGjv2gSQacFuZPKzmj5UJhoSo21ipMJ9YgsCDjQ";
-            String range = actualTomorrow+"!A3:O10";
+            String range = GetNeededDate() + "!A3:P10";
             SpreadsheetsResource.ValuesResource.GetRequest request =
                     service.Spreadsheets.Values.Get(spreadsheetId, range);
-
-            // Prints the names and majors of students in a sample spreadsheet:
-            // https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
             ValueRange response = request.Execute();
             IList<IList<Object>> values = response.Values;
-            // Посчитать завтрашний день
+
 
             if (values != null && values.Count > 0)
             {
@@ -64,15 +82,52 @@ namespace SheetsQuickstart
                 {
                     // Print columns A and E, which correspond to indices 0 and 4.
                     Console.WriteLine("{0} {1}", row[0], row[13]);
+                    using (StreamWriter middleData = new ("E:/Sirius.Severstal/db/data.txt", true))
+                    {
+                        middleData.Write("{0} {1}" + "\r\n", row[0], row[13]);
+                    }
+
                 }
             }
             else
             {
                 Console.WriteLine("No data found.");
             }
-            Console.Read();
 
 
         }
+
+        static void Main(string[] args)
+        {
+            MainAsync().GetAwaiter().GetResult();
+        }
+
+        static async Task MainAsync()
+        {
+            var discord = new DiscordClient(new DiscordConfiguration()
+            {
+                Token = "ODQyODMxMjE4NDk5NjQ5NTg3.YJ7BvQ.OiRF4i2Dt4nMzR76dw4178LdUrE",
+                TokenType = TokenType.Bot
+            });
+            discord.MessageCreated += async (s, e) =>
+            {
+                File.Delete("E:/Sirius.Severstal/db/data.txt");
+                Program.Schedule();
+                string content;
+                using (StreamReader middleData = new("E:/Sirius.Severstal/db/data.txt", true))
+                {
+                    content = middleData.ReadToEnd();
+                }
+                if (e.Message.Content.ToLower().StartsWith("!расписание"))
+                    await e.Message.RespondAsync(content);
+                File.Delete("E:/Sirius.Severstal/db/data.txt");
+
+
+            };
+
+            await discord.ConnectAsync();
+            await Task.Delay(-1);
+        }
+
     }
 }
