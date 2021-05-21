@@ -21,3 +21,13 @@ C:\Users\Тема\source\repos\schedule\schedule\obj\Debug\netcoreapp3.1\schedul
 C:\Users\Тема\source\repos\schedule\schedule\obj\Debug\netcoreapp3.1\schedule.pdb
 C:\Users\Тема\source\repos\schedule\schedule\obj\Debug\netcoreapp3.1\schedule.genruntimeconfig.cache
 C:\Users\Тема\source\repos\schedule\schedule\bin\Debug\netcoreapp3.1\credentials.json
+C:\Users\Тема\source\repos\schedule\schedule\bin\Debug\netcoreapp3.1\ConcurrentCollections.dll
+C:\Users\Тема\source\repos\schedule\schedule\bin\Debug\netcoreapp3.1\DSharpPlus.dll
+C:\Users\Тема\source\repos\schedule\schedule\bin\Debug\netcoreapp3.1\DSharpPlus.Interactivity.dll
+C:\Users\Тема\source\repos\schedule\schedule\bin\Debug\netcoreapp3.1\Emzi0767.Common.dll
+C:\Users\Тема\source\repos\schedule\schedule\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\Тема\source\repos\schedule\schedule\bin\Debug\netcoreapp3.1\System.Collections.Immutable.dll
+C:\Users\Тема\source\repos\schedule\schedule\bin\Debug\netcoreapp3.1\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\Тема\source\repos\schedule\schedule\bin\Debug\netcoreapp3.1\DSharpPlus.CommandsNext.dll
+C:\Users\Тема\source\repos\schedule\schedule\bin\Debug\netcoreapp3.1\Microsoft.Extensions.DependencyInjection.dll
+C:\Users\Тема\source\repos\schedule\schedule\bin\Debug\netcoreapp3.1\Microsoft.Extensions.DependencyInjection.Abstractions.dll
