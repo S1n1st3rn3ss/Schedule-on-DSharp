@@ -31,3 +31,4 @@ C:\Users\Тема\source\repos\schedule\schedule\obj\Debug\net5.0\schedule.dll
 C:\Users\Тема\source\repos\schedule\schedule\obj\Debug\net5.0\ref\schedule.dll
 C:\Users\Тема\source\repos\schedule\schedule\obj\Debug\net5.0\schedule.pdb
 C:\Users\Тема\source\repos\schedule\schedule\obj\Debug\net5.0\schedule.genruntimeconfig.cache
+C:\Users\Тема\source\repos\schedule\schedule\obj\Debug\net5.0\schedule.csprojAssemblyReference.cache

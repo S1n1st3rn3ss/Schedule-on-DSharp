@@ -21,6 +21,7 @@ namespace SheetsQuickstart
         static string[] Scopes = { SheetsService.Scope.SpreadsheetsReadonly };
         static string ApplicationName = "Google Sheets API .NET Quickstart";
         static string NextSchoolDay;
+        
         static string GetNeededDate()
         // Функция, определяющая следующий рабочий день
         {
@@ -47,8 +48,7 @@ namespace SheetsQuickstart
             using (var stream =
                 new FileStream("credentials.json", FileMode.Open, FileAccess.Read))
             {
-                // Токен в JSON, нужен для авторизации и чтения
-                // НЕ ТРОГАТЬ!
+                // tokens and credentials stuff
                 string credPath = "token.json";
                 credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
                     GoogleClientSecrets.Load(stream).Secrets,
@@ -58,7 +58,7 @@ namespace SheetsQuickstart
                     new FileDataStore(credPath, true)).Result;
             }
 
-            // Подключение АПИ, что-то чисто Гугловское
+            // api
             var service = new SheetsService(new BaseClientService.Initializer()
             {
                 HttpClientInitializer = credential,
@@ -67,36 +67,38 @@ namespace SheetsQuickstart
 
 
             // Define request parameters.
-            String spreadsheetId = "1mAodHGjv2gSQacFuZPKzmj5UJhoSo21ipMJ9YgsCDjQ";
+            String spreadsheetId = "placeholder";
             String range = GetNeededDate() + "!A3:P10";
             SpreadsheetsResource.ValuesResource.GetRequest request =
                     service.Spreadsheets.Values.Get(spreadsheetId, range);
             ValueRange response = request.Execute();
             IList<IList<Object>> values = response.Values;
-
-
+            
             if (values != null && values.Count > 0)
             {
-                Console.WriteLine("Номер, Урок");
+                FileStream StreamForThings = new FileStream("data.txt", FileMode.Create, FileAccess.Write, FileShare.None);
+                StreamWriter StreamWrite = new StreamWriter(StreamForThings);
                 foreach (var row in values)
                 {
                     // Print columns A and E, which correspond to indices 0 and 4.
-                    Console.WriteLine("{0} {1}", row[0], row[13]);
-                    using (StreamWriter middleData = new ("E:/Sirius.Severstal/db/data.txt", true))
-                    {
-                        middleData.Write("{0} {1}" + "\r\n", row[0], row[13]);
-                    }
-
+                    StreamWrite.WriteLine("{0} {1}", row[0], row[11]);
                 }
+                StreamWrite.Close();
+                //StreamForThings.Close();
+                Console.WriteLine("schedule worked");
+                
+                //string SchedResponse = ReaderForThing.ReadToEnd();
+                //Console.WriteLine(ReaderForThing.ReadToEnd());
+                StreamForThings.Close();
             }
             else
             {
                 Console.WriteLine("No data found.");
             }
+            
 
 
         }
-
         static void Main(string[] args)
         {
             MainAsync().GetAwaiter().GetResult();
@@ -106,28 +108,41 @@ namespace SheetsQuickstart
         {
             var discord = new DiscordClient(new DiscordConfiguration()
             {
-                Token = "ODQyODMxMjE4NDk5NjQ5NTg3.YJ7BvQ.OiRF4i2Dt4nMzR76dw4178LdUrE",
+                Token = "placeholder",
                 TokenType = TokenType.Bot
             });
             discord.MessageCreated += async (s, e) =>
             {
-                File.Delete("E:/Sirius.Severstal/db/data.txt");
-                Program.Schedule();
-                string content;
-                using (StreamReader middleData = new("E:/Sirius.Severstal/db/data.txt", true))
-                {
-                    content = middleData.ReadToEnd();
-                }
-                if (e.Message.Content.ToLower().StartsWith("!расписание"))
-                    await e.Message.RespondAsync(content);
-                File.Delete("E:/Sirius.Severstal/db/data.txt");
 
+                if (e.Message.Content.ToLower().StartsWith("!расписание"))
+                {
+
+                    Console.WriteLine("we was sent");
+                    Program.Schedule();
+                    Console.WriteLine("schedule worked");
+                    FileStream StreamForReading = new FileStream("data.txt", FileMode.Open, FileAccess.Read, FileShare.None);
+                    StreamReader ReaderForThing = new StreamReader(StreamForReading);
+                    string SchedResponse = await ReaderForThing.ReadToEndAsync();
+                    await e.Message.RespondAsync(SchedResponse);
+                    ReaderForThing.Close();
+                    StreamForReading.Close();
+                    Console.WriteLine(SchedResponse);
+                }
 
             };
 
             await discord.ConnectAsync();
             await Task.Delay(-1);
         }
-
     }
 }
+
+
+
+
+
+
+
+
+
+
