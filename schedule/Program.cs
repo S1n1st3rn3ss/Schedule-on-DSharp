@@ -67,7 +67,7 @@ namespace SheetsQuickstart
 
 
             // Define request parameters.
-            String spreadsheetId = "1mAodHGjv2gSQacFuZPKzmj5UJhoSo21ipMJ9YgsCDjQ";
+            String spreadsheetId = "placeholder";
             String range = GetNeededDate() + "!A3:P10";
             SpreadsheetsResource.ValuesResource.GetRequest request =
                     service.Spreadsheets.Values.Get(spreadsheetId, range);
@@ -106,7 +106,7 @@ namespace SheetsQuickstart
         {
             var discord = new DiscordClient(new DiscordConfiguration()
             {
-                Token = "ODQyODMxMjE4NDk5NjQ5NTg3.YJ7BvQ.OiRF4i2Dt4nMzR76dw4178LdUrE",
+                Token = "placeholder",
                 TokenType = TokenType.Bot
             });
             discord.MessageCreated += async (s, e) =>
